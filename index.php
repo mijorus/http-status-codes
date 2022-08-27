@@ -41,6 +41,7 @@ $colors = [
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/chota.min.css">
+    <meta name="description" content="List of the http codes defined by the IANA; quickly search for the status code you need and explode some that you might not know">
     <title>HTTP status codes</title>
 </head>
 
@@ -53,7 +54,10 @@ $colors = [
             <p style="font-size: 12px;">Press <kbd>/</kbd> to focus</p>
         </div>
         <?php foreach ($data as $http_group) : ?>
-            <hr class="remove-me">
+            <div style="display: flex; flex-direction: row; align-items: center;">
+                <div><?php echo $http_group[0][0] ?></div>
+                <div class="remove-me" style="width: 90%; height: 2px; background: black; margin-left: 10px;"></div>
+            </div>
             <div class="row" style="margin-top: 20px;">
                 <?php foreach ($http_group as $http_code) : ?>
                     <div 
@@ -118,7 +122,7 @@ $colors = [
         const statusCodes = document.querySelectorAll('.status-code');
         const statusCodesRows = document.querySelectorAll('.http-code-box');
         const searchInput = document.getElementById('search');
-        const removeMe = document.querySelectorAll('remove-me');
+        const removeMe = document.querySelectorAll('.remove-me');
 
         searchInput.focus();
 
@@ -137,15 +141,17 @@ $colors = [
             statusCodesRows.forEach(el => {
                 console.log(el.dataset.code);
                 el.classList.remove('is-hidden');
-                removeMe.forEach(el => el.classList.remove('is-hidden'))
+                // removeMe.forEach(el => el.classList.remove('is-hidden'))
 
-                if (!el.dataset.code.includes(searchInput.value) && 
-                    !el.dataset.label.toLowerCase().includes(searchInput.value.toLowerCase())
+                if ((searchInput.value.length && el.dataset.code.includes('-')) || 
+                    (!el.dataset.code.includes(searchInput.value) && !el.dataset.label.toLowerCase().includes(searchInput.value.toLowerCase()))
                 ) {
                     el.classList.add('is-hidden');
                 }
 
-                removeMe.forEach(el => el.classList.add('is-hidden'))
+                if (searchInput.value.trim().length) {
+                    // removeMe.forEach(el => el.classList.add('is-hidden'))
+                }
             })
         })
     })
