@@ -161,6 +161,6 @@ $colors = [
 
 <?php
 
-file_put_contents(__DIR__ . '/index.html', ob_get_contents());
+file_put_contents(__DIR__ . '/public/index.html', ob_get_contents());
 ob_clean();
 ?>
