@@ -48,7 +48,7 @@ $colors = [
 <body>
     <div class="container" style="padding: 10px;">
         <h1 class="is-marginless">List of all the HTTP Status codes</h1>
-        <p style="font-size: 12px;"><a href="https://github.com/mijorus">by mijorus</a></p>
+        <p style="font-size: 12px;"><a href="https://github.com/mijorus/http-status-codes">by mijorus on github</a></p>
         <div style="padding-top: 10px;">
             <input id="search" type="search" placeholder="Type to search ...">
             <p style="font-size: 12px;">Press <kbd>/</kbd> to focus</p>
