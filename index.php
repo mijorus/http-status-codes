@@ -24,7 +24,7 @@ foreach (explode("\n", $csv_data) as $i => $row) {
 }
 
 $colors = [
-    100 => '#35cf7a',
+    100 => '#52b6e7',
     200 => '#35cf7a',
     200 => '#35cf7a',
     300 => '#f39b00',
