@@ -69,8 +69,8 @@ $colors = [
                     >
                         <?php
                         $color = 'gray';
-                        $is_group = str_contains($http_code[0], '-');
-                        if (!str_contains($http_code[0], '-')) {
+                        $is_group = strpos($http_code[0], '-') !== false;
+                        if (!$is_group) {
                             $color = $colors[((int) $http_code[0][0] . '00')];
                         }
                         ?>
