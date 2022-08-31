@@ -40,13 +40,15 @@ $colors = [
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/chota.min.css">
     <link rel="shortcut icon" href="/icon.png">
     <meta name="description" content="List of the http codes defined by the IANA; quickly search for the status code you need and explode some that you might not know">
     <title>HTTP status codes</title>
 </head>
 
 <body>
+    <style>
+        <?php echo file_get_contents(__DIR__.'/chota.min.css'); ?>
+    </style>
     <div class="container" style="padding: 10px;">
         <h1 class="is-marginless">List of all the HTTP Status codes</h1>
         <p style="font-size: 12px;"><a href="https://github.com/mijorus/http-status-codes">by mijorus on github</a></p>
