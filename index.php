@@ -1,7 +1,7 @@
 <?php
 
 ob_start();
-error_log('run');
+error_log('Building...');
 $c = curl_init('https://www.iana.org/assignments/http-status-codes/http-status-codes-1.csv');
 curl_setopt($c, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)");
 curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
@@ -80,15 +80,9 @@ $colors = [
                                     </div>
                                 </div>
                                 <div style="display: flex; flex-direction: column; ">
-                                    <?php if ($is_group) : ?>
-                                        <div style="color: black;" class="row">
+                                        <div style="color: black; <?php echo(in_array($http_code[1], ['Unassigned', '(Unused)']) ? 'font-style: italic;' : '')  ?>" class="row">
                                             <?php echo $http_code[1] ?>
                                         </div>
-                                    <?php else : ?>
-                                        <a style="color: black; text-decoration: underline;" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/<?php echo $http_code[0] ?>" class="row">
-                                            <?php echo $http_code[1] ?>
-                                        </a>
-                                    <?php endif ?>
                                     <div class="row" style="font-size: 10px;">
                                         <?php echo str_replace('"', '', $http_code[2]) ?>
                                     </div>
