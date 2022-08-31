@@ -49,6 +49,7 @@ $colors = [
     <style>
         <?php echo file_get_contents(__DIR__.'/chota.min.css'); ?>
     </style>
+
     <div class="container" style="padding: 10px;">
         <h1 class="is-marginless">List of all the HTTP Status codes</h1>
         <p style="font-size: 12px;"><a href="https://github.com/mijorus/http-status-codes">by mijorus on github</a></p>
@@ -63,12 +64,7 @@ $colors = [
             </div>
             <div class="row" style="margin-top: 20px;">
                 <?php foreach ($http_group as $http_code) : ?>
-                    <div 
-                    class="http-code-box col-12 col-6-md" 
-                    style="margin-bottom: 10px;" 
-                    data-code="<?php echo $http_code[0] ?>"
-                    data-label="<?php echo $http_code[1] ?>"
-                    >
+                    <div class="http-code-box col-12 col-6-md" style="margin-bottom: 10px;" data-code="<?php echo $http_code[0] ?>" data-label="<?php echo $http_code[1] ?>">
                         <?php
                         $color = 'gray';
                         $is_group = strpos($http_code[0], '-') !== false;
@@ -77,7 +73,7 @@ $colors = [
                         }
                         ?>
                         <div class="col-12">
-                            <div class="row" >
+                            <div class="row">
                                 <div class="is-vertical-align" style="margin-right: 10px;">
                                     <div class="tag status-code" style="background-color: <?php echo $color; ?>">
                                         <?php echo $http_code[0] ?>
@@ -119,7 +115,7 @@ $colors = [
     }
 </style>
 
-<script src="https://counterapi.com/c.js?ns=httpstatus.mijorus.it" async ></script>
+<script src="https://counterapi.com/c.js?ns=httpstatus.mijorus.it" async></script>
 <script>
     window.addEventListener('DOMContentLoaded', function() {
         const statusCodes = document.querySelectorAll('.status-code');
@@ -144,16 +140,11 @@ $colors = [
             statusCodesRows.forEach(el => {
                 console.log(el.dataset.code);
                 el.classList.remove('is-hidden');
-                // removeMe.forEach(el => el.classList.remove('is-hidden'))
 
-                if ((searchInput.value.length && el.dataset.code.includes('-')) || 
+                if ((searchInput.value.length && el.dataset.code.includes('-') && searchInput.value[0].match(/\d/)) ||
                     (!el.dataset.code.includes(searchInput.value) && !el.dataset.label.toLowerCase().includes(searchInput.value.toLowerCase()))
                 ) {
                     el.classList.add('is-hidden');
-                }
-
-                if (searchInput.value.trim().length) {
-                    // removeMe.forEach(el => el.classList.add('is-hidden'))
                 }
             })
         })
@@ -163,7 +154,6 @@ $colors = [
 </html>
 
 <?php
-
 file_put_contents(__DIR__ . '/public/index.html', ob_get_contents());
 ob_clean();
 ?>
