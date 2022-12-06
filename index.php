@@ -82,7 +82,7 @@ $colors = [
                                 <div style="display: flex; flex-direction: column; ">
                                     <div style="color: black; <?php echo (in_array($http_code[1], ['Unassigned', '(Unused)']) ? 'font-style: italic;' : '')  ?>" class="row">
                                         <?php if ($http_code[0] === '418') : ?>
-                                        I’m a teapot
+                                            I’m a teapot
                                         <?php else : ?>
                                             <?php echo $http_code[1] ?>
                                         <?php endif ?>
@@ -136,7 +136,6 @@ $colors = [
 
         searchInput.addEventListener('keyup', function(e) {
             statusCodesRows.forEach(el => {
-                console.log(el.dataset.code);
                 el.classList.remove('is-hidden');
 
                 if ((searchInput.value.length && el.dataset.code.includes('-') && searchInput.value[0].match(/\d/)) ||
@@ -145,7 +144,7 @@ $colors = [
                     el.classList.add('is-hidden');
                 }
             })
-        })
+        });
     })
 </script>
 
