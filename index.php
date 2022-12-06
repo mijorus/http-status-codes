@@ -47,7 +47,7 @@ $colors = [
 
 <body>
     <style>
-        <?php echo file_get_contents(__DIR__.'/chota.min.css'); ?>
+        <?php echo file_get_contents(__DIR__ . '/chota.min.css'); ?>
     </style>
 
     <div class="container" style="padding: 10px;">
@@ -80,9 +80,13 @@ $colors = [
                                     </div>
                                 </div>
                                 <div style="display: flex; flex-direction: column; ">
-                                        <div style="color: black; <?php echo(in_array($http_code[1], ['Unassigned', '(Unused)']) ? 'font-style: italic;' : '')  ?>" class="row">
+                                    <div style="color: black; <?php echo (in_array($http_code[1], ['Unassigned', '(Unused)']) ? 'font-style: italic;' : '')  ?>" class="row">
+                                        <?php if ($http_code[0] === '418') : ?>
+                                        I’m a teapot
+                                        <?php else : ?>
                                             <?php echo $http_code[1] ?>
-                                        </div>
+                                        <?php endif ?>
+                                    </div>
                                     <div class="row" style="font-size: 10px;">
                                         <?php echo str_replace('"', '', $http_code[2]) ?>
                                     </div>
