@@ -99,7 +99,7 @@ $colors = [
         <?php endforeach ?>
         <footer>
             <hr>
-            <div class="counterapi" style="min-height:44px" color="black" bg="white" label="vists"></div>
+            <div class="counterapi"></div>
         </footer>
     </div>
 </body>
@@ -113,7 +113,6 @@ $colors = [
     }
 </style>
 
-<script src="https://counterapi.com/c.js?ns=httpstatus.mijorus.it" async></script>
 <script>
     window.addEventListener('DOMContentLoaded', function() {
         const statusCodes = document.querySelectorAll('.status-code');
@@ -145,6 +144,18 @@ $colors = [
                 }
             })
         });
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", "https://api.countapi.xyz/hit/httpstatus.mijorus.it/home");
+        xhr.responseType = "json";
+        xhr.onload = function () {
+            const result = this.response.value;
+            document.querySelector('.counterapi').textContent = 'Visits: ' + result.toLocaleString();
+        }
+            
+        xhr.send();
+
+        
     })
 </script>
 
