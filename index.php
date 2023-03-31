@@ -2,12 +2,7 @@
 
 ob_start();
 error_log('Building...');
-$c = curl_init('https://www.iana.org/assignments/http-status-codes/http-status-codes-1.csv');
-curl_setopt($c, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)");
-curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
-$csv_data = curl_exec($c);
-
-curl_close($c);
+$csv_data = file_get_contents('http-status-codes-1.csv');
 
 $headers = [];
 $data = [];
@@ -50,9 +45,25 @@ $colors = [
         <?php echo file_get_contents(__DIR__ . '/chota.min.css'); ?>
     </style>
 
+    <style>
+        .status-code {
+            border-radius: 8px;
+            border: none;
+            color: white;
+            margin-right: 10px;
+        }
+
+        .wikilink {
+            color: white; 
+            text-decoration: underline;
+            transition: transform 0.1s linear;
+        }
+    </style>
+
     <div class="container" style="padding: 10px;">
         <h1 class="is-marginless">List of all the HTTP Status codes</h1>
         <p style="font-size: 12px;"><a href="https://github.com/mijorus/http-status-codes">by mijorus on github</a></p>
+        <p>This is a searchable list of all the official HTTP status codes defined by the IANA</p>
         <div style="padding-top: 10px;">
             <input id="search" type="search" placeholder="Type to search ...">
             <p style="font-size: 12px;">Press <kbd>/</kbd> to focus</p>
@@ -76,13 +87,20 @@ $colors = [
                             <div class="row">
                                 <div class="is-vertical-align" style="margin-right: 10px;">
                                     <div class="tag status-code" style="background-color: <?php echo $color; ?>">
-                                        <?php echo $http_code[0] ?>
+                                    <?php if (strpos($http_code[0], '-') !== false) : ?>
+                                        <?= $http_code[0] ?>
+                                        <?php else : ?>
+                                            <a class="wikilink"
+                                                href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#<?= $http_code[0] ?>">
+                                                <?php echo $http_code[0] ?>
+                                            </a>
+                                        <?php endif ?>
                                     </div>
                                 </div>
                                 <div style="display: flex; flex-direction: column; ">
                                     <div style="color: black; <?php echo (in_array($http_code[1], ['Unassigned', '(Unused)']) ? 'font-style: italic;' : '')  ?>" class="row">
                                         <?php if ($http_code[0] === '418') : ?>
-                                            I’m a teapot
+                                            I'm a teapot
                                         <?php else : ?>
                                             <?php echo $http_code[1] ?>
                                         <?php endif ?>
@@ -103,15 +121,6 @@ $colors = [
         </footer>
     </div>
 </body>
-
-<style>
-    .status-code {
-        border-radius: 8px;
-        border: none;
-        color: white;
-        margin-right: 10px;
-    }
-</style>
 
 <script>
     window.addEventListener('DOMContentLoaded', function() {
@@ -135,12 +144,27 @@ $colors = [
 
         searchInput.addEventListener('keyup', function(e) {
             statusCodesRows.forEach(el => {
-                el.classList.remove('is-hidden');
-
-                if ((searchInput.value.length && el.dataset.code.includes('-') && searchInput.value[0].match(/\d/)) ||
-                    (!el.dataset.code.includes(searchInput.value) && !el.dataset.label.toLowerCase().includes(searchInput.value.toLowerCase()))
-                ) {
-                    el.classList.add('is-hidden');
+                try {
+                    el.classList.remove('is-hidden');
+    
+                    let inRange = false;
+                    if (el.dataset.code.includes('-') && /^\d+$/g.test(searchInput.value)) {
+                        const searchNum = parseInt(searchInput.value);
+                        const range = el.dataset.code.split('-').map(s => parseInt(s));
+                        console.log(searchNum);
+    
+                        inRange =(searchNum > 100) && (searchNum >= range[0]) && (searchNum <= range[1]);
+                    }
+    
+                    if ((searchInput.value.length && el.dataset.code.includes('-') && searchInput.value[0].match(/\d/)) ||
+                        (!el.dataset.code.includes(searchInput.value) && !el.dataset.label.toLowerCase().includes(searchInput.value.toLowerCase()))
+                    ) {
+                        if ((searchInput.value.length && !inRange)) {
+                            el.classList.add('is-hidden');
+                        }
+                    }
+                } catch (e) {
+                    console.error(e);
                 }
             })
         });
@@ -163,5 +187,7 @@ $colors = [
 
 <?php
 file_put_contents(__DIR__ . '/public/index.html', ob_get_contents());
+
+error_log('Done');
 ob_clean();
 ?>
