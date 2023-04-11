@@ -52,6 +52,10 @@ $colors = [
             color: white;
             margin-right: 10px;
         }
+        
+        .unassigned-code {
+            background-color: gray !important;
+        }
 
         .wikilink {
             color: white; 
@@ -88,7 +92,7 @@ $colors = [
                         <div class="col-12">
                             <div class="row">
                                 <div class="is-vertical-align" style="margin-right: 10px;">
-                                    <div class="tag status-code" style="background-color: <?php echo $color; ?>">
+                                    <div class="tag status-code <?= $unassigned ? 'unassigned-code' : '' ?>">
                                     <?php if ($unassigned) : ?>
                                         <?= $http_code[0] ?>
                                         <?php else : ?>
