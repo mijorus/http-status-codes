@@ -89,7 +89,7 @@ $colors = [
                             <div class="row">
                                 <div class="is-vertical-align" style="margin-right: 10px;">
                                     <div class="tag status-code" style="background-color: <?php echo $color; ?>">
-                                    <?php if (!$unassigned) : ?>
+                                    <?php if ($unassigned === false) : ?>
                                         <?= $http_code[0] ?>
                                         <?php else : ?>
                                             <a class="wikilink"
