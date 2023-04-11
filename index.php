@@ -79,6 +79,8 @@ $colors = [
                         <?php
                         $color = 'gray';
                         $is_group = strpos($http_code[0], '-') !== false;
+                        $unassigned = in_array($http_code[1], ['Unassigned', '(Unused)']);
+
                         if (!$is_group) {
                             $color = $colors[((int) $http_code[0][0] . '00')];
                         }
@@ -87,7 +89,7 @@ $colors = [
                             <div class="row">
                                 <div class="is-vertical-align" style="margin-right: 10px;">
                                     <div class="tag status-code" style="background-color: <?php echo $color; ?>">
-                                    <?php if (strpos($http_code[0], '-') !== false) : ?>
+                                    <?php if (!$unassigned) : ?>
                                         <?= $http_code[0] ?>
                                         <?php else : ?>
                                             <a class="wikilink"
@@ -98,7 +100,7 @@ $colors = [
                                     </div>
                                 </div>
                                 <div style="display: flex; flex-direction: column; ">
-                                    <div style="color: black; <?php echo (in_array($http_code[1], ['Unassigned', '(Unused)']) ? 'font-style: italic;' : '')  ?>" class="row">
+                                    <div style="color: black; <?php echo ($unassigned ? 'font-style: italic;' : '')  ?>" class="row">
                                         <?php if ($http_code[0] === '418') : ?>
                                             I'm a teapot
                                         <?php else : ?>
